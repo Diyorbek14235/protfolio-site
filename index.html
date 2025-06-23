@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Omnifood</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FDF7F3; /* Rasmdagi och rangga eng yaqin variant */
+        }
+
+        .btn-orange {
+            background-color: #f47c20;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-orange:hover {
+            background-color: #e56f13;
+        }
+
+        .hero-section {
+            padding: 30px 0 10px 0;
+            margin-bottom: 0 !important;
+            min-height: 80vh;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            /* fw-bold endi bevosita HTML tagiga qo'shiladi, bu yerdan olib tashlandi */
+        }
+
+        .hero-img img {
+            max-width: 100%;
+        }
+
+        .avatar-group {
+            position: relative;
+            top: -70px;
+            padding: 20px 0;
+            border-radius: 10px;
+        }
+
+        .avatar-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border: 3px solid white;
+            margin-right: -10px;
+            transition: transform 0.2s ease-in-out;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .avatar-img:hover {
+            transform: translateY(-5px);
+            z-index: 10;
+        }
+        .semi{
+            color: #f47c20;
+        }
+        /* .fw-semibold { color: black } -- Bu qoida umumiy bo'lib qoladi, chunki boshqa joylarda ham kerak */
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* HARAKATNI DOIM YOQ */
+        }
+
+        .card:hover {
+            transform: translateY(-10px); /* TEPAGA CHIQADI */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* SHADOW BERILADI */
+        }
+
+        .meal-tags {
+            margin-bottom: 10px;
+        }
+
+        .tag--vegetarian {
+            background-color: #51cf66;
+            color: black;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .tag--paleo{
+            background-color: #e8d46d;
+            color: black;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600
+        }
+        .see-link {
+            color: #f47c20;
+            position: relative;
+        }
+
+        .see-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 100%;
+            height: 2px;
+            background-color: #f47c20;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .see-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Testimonials Section Styles */
+        .section-testimonials {
+            padding: 80px 0;
+            background-color: #FDF7F3; /* Body foni bilan bir xil */
+        }
+        .section-subheading {
+            font-size: 0.9rem; /* TESTIMONIALS text size */
+            font-weight: bold;
+            color: #e67e22; /* Orange color from Omnifood branding, or a darker muted tone if preferred */
+            text-transform: uppercase;
+            letter-spacing: 0.75px; /* Spacing between letters */
+            margin-bottom: 10px; /* Space between sub-heading and main heading */
+            display: block; /* Ensures it takes its own line */
+        }
+        .testimonial-heading {
+            font-size: 3rem;
+            /* fw-bold endi bevosita HTML tagiga qo'shiladi, bu yerdan olib tashlandi */
+            color: #333;
+            margin-bottom: 50px; /* Space below the main heading */
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns for testimonials */
+            gap: 40px; /* Space between testimonial cards */
+        }
+        .testimonial-card {
+            background-color: #FDF7F3; /* Body foni bilan bir xil */
+            padding: 0; /* Rasmdagidek padding yo'q */
+            border-radius: 0; /* Rasmdagidek burchaklar yumaloq emas */
+            box-shadow: none; /* Rasmdagidek soya yo'q */
+            margin-bottom: 0; /* Grid gap oralig'ini ishlatadi */
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-card img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+        .testimonial-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+            /* fw-semibold endi bevosita HTML tagiga qo'shiladi, bu yerdan olib tashlandi */
+        }
+        .testimonial-card .author {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Three columns for images */
+            gap: 15px; /* Gap between images */
+            margin-left: 30px; /* Margin to separate from testimonials */
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 8px; /* Slightly rounded corners */
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 220px; /* Fixed height for gallery images */
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery-item img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Pricing Section Styles */
+        .section-pricing {
+            padding: 80px 0;
+            background-color: #FDF7F3; /* Background color from the image */
+        }
+        .pricing-subheading {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #e67e22; /* Orange color */
+            text-transform: uppercase;
+            letter-spacing: 0.75px;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+        .pricing-heading {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 80px; /* Space below heading */
+            text-align: center;
+        }
+        .pricing-card {
+            background-color: #FDF7F3;
+            border-radius: 11px; /* Slightly rounded corners for the cards */
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* For the BEST VALUE tag */
+        }
+        .pricing-card-starter {
+             border: 2px solid #FDF7F3; /* Subtle border for starter card */
+        }
+        .pricing-card-complete {
+            background-color: #fdf2e3; /* Slightly darker background for complete card */
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.075);
+            overflow: hidden; /* For the best value ribbon */
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e67e22; /* Orange color for plan names */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .pricing-card .price {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            line-height: 1; /* Adjust line height for numbers */
+            margin-bottom: 10px;
+        }
+        .pricing-card .price span {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #666;
+            margin-right: 8px;
+        }
+        .pricing-card .per-month {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 40px;
+        }
+        .pricing-card ul li {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .pricing-card ul li i.bi {
+            color: #e67e22; /* Orange for checkmark */
+            font-size: 1.4rem;
+            margin-right: 16px;
+        }
+        .pricing-card ul li i.bi-x-lg {
+            color: #ccc; /* Grey for crossmark */
+        }
+
+        .pricing-card .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .best-value-ribbon {
+            background-color: #ffd43b; /* Yellow color */
+            color: #333;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 8px 80px;
+            position: absolute;
+            top: 28px;
+            right: -60px;
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+        .best-value-ribbon::before,
+        .best-value-ribbon::after {
+            content: '';
+            position: absolute;
+            border-style: solid;
+            border-color: transparent;
+            bottom: -8px; /* Adjust based on ribbon padding and desired triangle size */
+            z-index: -1;
+        }
+        .best-value-ribbon::before {
+            left: 0;
+            border-width: 8px 8px 0 0;
+            border-left-color: #fab005; /* Darker yellow for triangle */
+        }
+        .best-value-ribbon::after {
+            right: 0;
+            border-width: 8px 0 0 8px;
+            border-right-color: #fab005; /* Darker yellow for triangle */
+        }
+
+        /* Features Section Styles */
+        .section-features {
+            padding: 80px 0;
+            background-color: #FDF7F3; /* Same as body background */
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns for features */
+            gap: 48px; /* Space between feature items */
+        }
+        .feature-item {
+            text-align: center; /* Center align content */
+        }
+        .feature-item i.bi {
+            font-size: 3rem; /* Icon size */
+            color: #e67e22; /* Orange color for icons */
+            margin-bottom: 24px; /* Space below icon */
+            background-color: #fdf2e3; /* Light orange background */
+            padding: 16px;
+            border-radius: 50%;
+        }
+        .feature-item h4 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+        }
+        .feature-item p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            padding: 0 10px; /* Some padding for text */
+        }
+        .pricing-info-text {
+            font-size: 1.1rem;
+            color: #555;
+            text-align: center;
+            margin-top: 48px; /* Space above this text */
+            line-height: 1.6;
+        }
+
+        /* CTA Section Styles */
+        .section-cta {
+            padding: 4.8rem 0 12.8rem 0; /* Padding around the section */
+        }
+
+        .cta {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* 2/3 for text, 1/3 for image */
+            /* background-color: #e67e22; /* Base color */
+            background-image: linear-gradient(to right bottom, #eb984e, #e67e22); /* Gradient from image */
+            border-radius: 11px;
+            overflow: hidden; /* Ensures the image doesn't overflow rounded corners */
+            box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.15); /* Soft shadow */
+        }
+
+        .cta-text-box {
+            padding: 4.8rem 6.4rem 6.4rem 6.4rem; /* Top, Right, Bottom, Left */
+            color: #45260a; /* Dark brown color from image */
+        }
+
+        .cta-heading {
+            font-size: 3rem; /* Adjust as needed */
+            font-weight: bold;
+            line-height: 1.2;
+            margin-bottom: 3.2rem; /* Space below heading */
+            color: inherit; /* Inherit color from parent (.cta-text-box) */
+        }
+
+        .cta-description {
+            font-size: 1.1rem; /* Adjust as needed */
+            line-height: 1.6;
+            margin-bottom: 4.8rem; /* Space below description */
+        }
+
+        .cta-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Two columns for inputs */
+            column-gap: 3.2rem; /* Space between columns */
+            row-gap: 2.4rem; /* Space between rows */
+        }
+
+        .cta-form label {
+            display: block;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+        }
+
+        .cta-form input:not(type="checkbox"),
+        .cta-form select {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            font-family: inherit;
+            color: inherit;
+            border: none;
+            background-color: #fdf2e3; /* Light background for inputs */
+            border-radius: 9px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            outline: none; /* Remove outline on focus */
+        }
+
+        .cta-form input::placeholder {
+            color: #aaa; /* Placeholder color */
+        }
+
+        .cta-form .btn--form {
+            background-color: #45260a; /* Dark brown from image */
+            color: white;
+            align-self: end; /* Align to the bottom of the grid cell */
+            padding: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cta-form .btn--form:hover {
+            background-color: white; /* Hover effect to white */
+            color: #45260a; /* Text becomes dark brown */
+        }
+
+
+        .cta-img-box {
+            background-image: linear-gradient(to right bottom, rgba(235, 151, 78, 0.35), rgba(230, 125, 34, 0.35)), url('8.jpg'); /* Image and gradient overlay */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Adjustments for smaller screens */
+        @media (max-width: 1200px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on larger tablets */
+            }
+            .cta-form {
+                grid-template-columns: 1fr; /* Single column for form on smaller screens */
+            }
+            .cta-text-box {
+                padding: 4.8rem; /* Adjust padding */
+            }
+        }
+        @media (max-width: 991px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .gallery-grid {
+                margin-top: 50px;
+                margin-left: 0;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-item img {
+                height: 180px;
+            }
+            .pricing-card {
+                margin-bottom: 40px; /* Space between cards on smaller screens */
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr); /* Still 2 columns on medium screens */
+            }
+            .cta {
+                grid-template-columns: 1fr; /* Single column for CTA on medium screens */
+            }
+            .cta-img-box {
+                min-height: 32rem; /* Minimum height for image on single column layout */
+            }
+        }
+        @media (max-width: 767px) {
+            .testimonial-heading, .pricing-heading {
+                font-size: 2.2rem;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-item img {
+                height: 200px;
+            }
+            .pricing-card {
+                padding: 30px;
+            }
+            .pricing-card h3 {
+                font-size: 1.6rem;
+            }
+            .pricing-card .price {
+                font-size: 3.5rem;
+            }
+            .pricing-card .price span {
+                font-size: 1.8rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+            }
+            .cta-text-box {
+                padding: 3.2rem; /* Further adjust padding */
+            }
+            .cta-heading {
+                font-size: 2.5rem; /* Adjust heading size */
+            }
+            .cta-description {
+                font-size: 1rem; /* Adjust description size */
+            }
+        }
+        @media (max-width: 575px) {
+            .gallery-item img {
+                height: 150px;
+            }
+            .pricing-card {
+                padding: 20px;
+            }
+            .cta-text-box {
+                padding: 2.4rem; /* Even more adjustment */
+            }
+            .cta-heading {
+                font-size: 2rem; /* Smaller heading for very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg pb-4" style="background-color: #fff2e6;">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="omnifood-logo.png" alt="Omnifood Logo" width="150" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">How it works</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Meals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Testimonials</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+            </ul>
+            <button class="btn btn-orange ms-3">Try for free</button>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 hero-text">
+                <h1 class="fw-bold">A healthy meal</h1>
+                <h1 class="fw-bold">delivered to your door,</h1>
+                <h1 class="fw-bold">every single day</h1>
+
+                <div class="mt-3">
+                    <p class="fw-semibold">The smart 365-days-per-year food subscription that will</p>
+                    <p class="fw-semibold">make you eat healthy again. Tailored to your personal tastes</p>
+                    <p class="fw-semibold">and nutritional needs.</p>
+                </div>
+
+                <div class="mt-4">
+                    <a href="#" class="btn btn-orange me-3">Start eating well</a>
+                    <a href="#" class="btn btn-outline-secondary">Learn more ↓</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 hero-img text-center">
+                <img src="hero.webp" alt="Healthy food" />
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center avatar-group">
+            <div class="d-flex me-3">
+                <img src="customer-1.jpg" alt="Avatar 1" class="rounded-circle avatar-img">
+                <img src="customer-2.jpg" alt="Avatar 2" class="rounded-circle avatar-img">
+                <img src="customer-3.jpg" alt="Avatar 3" class="rounded-circle avatar-img">
+                <img src="customer-4.jpg" alt="Avatar 4" class="rounded-circle avatar-img">
+                <img src="customer-5.jpg" alt="Avatar 5" class="rounded-circle avatar-img">
+                <img src="customer-6.jpg" alt="Avatar 6" class="rounded-circle avatar-img">
+            </div>
+            <p class="fw-semibold mb-0">
+                <span class="semi">250,000+</span> meals delivered last year!
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="container-fluid bg-body-tertiary py-5">
+    <div class="container-md">
+        <p class="fw-semibold text-center text-secondary">AS FEATURED IN</p>
+        <div class="d-flex justify-content-around flex-wrap align-items-center">
+            <img src="techcrunch.png" class="me-3 mb-3" alt="techcrunch logo" style="width: 150px;">
+            <img src="business-insider.png" class="me-3 mb-3" alt="business-insider logo" style="width: 150px;">
+            <img src="the-new-york-times.png" class="me-3 mb-3" alt="the-new-york-times logo" style="width: 150px;">
+            <img src="forbes.png" class="me-3 mb-3" alt="forbes logo" style="width: 150px;">
+            <img src="usa-today.png" class="me-3 mb-3 " alt="usa-today logo" style="width: 150px;">
+        </div>
+
+        <div class="container text-start">
+            <h6 class="fw-semibold" style="color: #f47c20;">HOW IT WORKS</h6>
+            <h1 class="fw-bold">Your daily dose of health in 3 simple steps</h1>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="container my-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="display-4 fw-bold text-muted" style="font-size: 7rem;">01</p>
+                        <h3 class="fw-bold">Tell us what you like (and what not)</h3>
+                        <p class="fw-semibold">Never again waste time thinking about what to eat! Omnfood AI</p>
+                        <p class="fw-semibold">will create a 100% personalized weekly meal plan just for you.</p>
+                        <p class="fw-semibold">It makes sure you get all the nutrients and vitamins you need, no</p>
+                        <p class="fw-semibold">matter what diet you follow!</p>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <img src="app-screen-1.png" alt="App Screen 1" class="img-fluid" style="max-height: 500px;" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="container my-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center">
+                        <img src="app-screen-2.png" alt="App Screen 2" class="img-fluid" style="max-height: 500px;" />
+                    </div>
+                    <div class="col-md-6">
+                        <p class="display-4 fw-bold text-muted" style="font-size: 7rem;">02</p>
+                        <h3 class="fw-bold">Approve your weekly meal plan</h3>
+                        <p class="fw-semibold">
+                            Once per week, approve the meal plan generated for you by <span class="fw-semibold">Omnifood AI.</span>
+                            You can change ingredients, swap entire meals, or <span class="fw-semibold">even add your own recipes.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container my-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="display-4 fw-bold text-muted" style="font-size: 7rem;">03</p>
+                        <h3 class="fw-bold">Receive meals at convenient time</h3>
+                        <p class="fw-semibold">
+                            Best chefs in town will cook your selected meal every day, and
+                        </p>
+                        <p class="fw-semibold"> we will deliver it to your door whenever works best for you.
+                        </p>
+                        <p class="fw-semibold">You can pause or cancel anytime.</p>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <img src="app-screen-3.png" alt="App Screen 3" class="img-fluid" style="max-height: 500px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-md">
+            <p class="text-center fw-semibold" style="color: #f47c20;">MEALS</p>
+            <h1 class="text-center fw-bold">Omnifood AI chooses from 5,000+ recipes</h1>
+
+            <div class="container my-5">
+                <div class="d-flex flex-wrap flex-row-reverse justify-content-between align-items-start">
+
+                    <div class="ms-4" style="max-width: 300px;">
+                        <h2 class="fw-bold">Works with any diet:</h2>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Vegetarian</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Vegan</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Pescatarian</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Glutten-free</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Lactose-free</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Keto</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Paleo</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Low FODMAP</p>
+                        <p class="text-secondary fw-semibold"><i class="bi bi-check-circle-fill" style="color: #f47c20; font-size: 24px;"></i>
+                            Kid-friendly</p>
+                    </div>
+
+                    <div class="d-flex gap-4 flex-wrap justify-content-center">
+                        <div class="card" style="width: 18rem;">
+                            <img src="meal-1.jpg" class="card-img-top" alt="meal-1">
+                            <div class="card-body">
+                                <div class="meal-tags">
+                                    <span class="tag tag--vegetarian fw-semibold">VEGETARIAN</span>
+                                </div>
+                                <h5 class="card-title fw-semibold">Japanese Gyozas</h5>
+                                <p class="card-text fw-semibold"><i class="bi bi-fire" style="color: #f47c20; font-size: 24px;"></i> 650 calories</p>
+                                <p class="card-text fw-semibold"><span style="color: #f47c20; font-size: 24px;">🍽️</span>NutriScore ®74</p>
+                                <p class="card-text fw-semibold"><i class="bi bi-star-fill" style="color: #f47c20; font-size: 24px;"></i>4.9 rating (537)</p>
+                            </div>
+                        </div>
+
+                        <div class="card" style="width: 18rem;">
+                            <img src="meal-2.jpg" class="card-img-top" alt="meal-2">
+                            <div class="card-body">
+                                <div class="meal-tags">
+                                    <span class="tag tag--vegetarian fw-semibold">VEGAN</span>
+                                    <span class="tag tag--paleo fw-semibold">PALEO</span>
+                                </div>
+                                <h5 class="card-title fw-semibold">Avocado Salad</h5>
+                                <p class="card-text fw-semibold"><i class="bi bi-fire" style="color: #f47c20; font-size: 24px;"></i> 400 calories</p>
+                                <p class="card-text fw-semibold"><span style="color: #f47c20; font-size: 24px;">🍽️</span>NutriScore ®92</p>
+                                <p class="card-text fw-semibold"><i class="bi bi-star-fill" style="color: #f47c20; font-size: 24px;"></i>4.8 rating (441)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-md text-center mt-4"> <a href="#" class="see-link fw-semibold text-decoration-none fs-5">See all recipes →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container section-testimonials">
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <span class="section-subheading">Testimonials</span>
+            <h2 class="testimonial-heading fw-bold">Once you try it, you can't go back</h2>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <img src="dave.jpg" alt="Dave Bryson" style="border-radius: 50px;">
+                    <p class="fw-semibold">Inexpensive, healthy and great-tasting meals, without even having to order manually! It feels truly magical.</p>
+                    <span class="author">— Dave Bryson</span>
+                </div>
+                <div class="testimonial-card">
+                    <img src="ben.jpg" alt="Ben Hadley" style="border-radius: 50px;">
+                    <p class="fw-semibold">The AI algorithm is crazy good, it chooses the right meals for me every time. It's amazing not to worry about food anymore!</p>
+                    <span class="author">— Ben Hadley</span>
+                </div>
+                <div class="testimonial-card">
+                    <img src="steve.jpg" alt="Steve Miller" style="border-radius: 50px;">
+                    <p class="fw-semibold">Omnifood is a life saver! I just started a company, so there's no time for cooking. I couldn't live without my daily meals now!</p>
+                    <span class="author">— Steve Miller</span>
+                </div>
+                <div class="testimonial-card">
+                    <img src="hannah.jpg" alt="Hannah Smith" style="border-radius: 50px;">
+                    <p class="fw-semibold">I got Omnifood for the whole family, and it frees up so much time! Plus, everything is organic and vegan and without plastic.</p>
+                    <span class="author">— Hannah Smith</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="gallery-1.jpg" alt="Food Image 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-2.jpg" alt="Food Image 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-3.jpg" alt="Food Image 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-4.jpg" alt="Food Image 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-5.jpg" alt="Food Image 5">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-6.jpg" alt="Food Image 6">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-7.jpg" alt="Food Image 7">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-8.jpg" alt="Food Image 8">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-9.jpg" alt="Food Image 9">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-10.jpg" alt="Food Image 10">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-11.jpg" alt="Food Image 11">
+                </div>
+                <div class="gallery-item">
+                    <img src="gallery-12.jpg" alt="Food Image 12">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-pricing">
+    <div class="container">
+        <span class="pricing-subheading fw-semibold">Pricing</span>
+        <h1 class="pricing-heading fw-bold">Eating well without breaking the bank</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="pricing-card pricing-card-starter" style="border: solid #fab005;">
+                    <h3>Starter</h3>
+                    <p class="price"><span>$</span>399</p>
+                    <p class="per-month fw-semibold">per month. That's just $13 per meal!</p>
+                    <ul>
+                        <li><i class="bi bi-check-lg"></i> <span class="fw-semibold">1 meal per day</span></li>
+                        <li><i class="bi bi-check-lg"></i> <span class="fw-semibold">Order from 11am to 9pm</span></li>
+                        <li><i class="bi bi-check-lg"></i> <span class="fw-semibold">Delivery is free</span></li>
+                        <li><i class="bi bi-x-lg"></i> <span class="fw-semibold"></span></li>
+                    </ul>
+                    <button class="btn btn-orange">Start eating well</button>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="pricing-card pricing-card-complete">
+                    <div class="best-value-ribbon">Best Value</div>
+                    <h3>Complete</h3>
+                    <p class="price"><span>$</span>649</p>
+                    <p class="per-month fw-semibold">per month. That's just $11 per meal!</p>
+                    <ul>
+                        <li><i class="bi bi-check-lg"></i> <span class="fw-semibold">2 meals per day</span></li>
+                        <li><i class="bi bi-check-lg"></i> <span class="fw-semibold">Order 24/7</span></li>
+                        <li><i class="bi bi-check-lg"></i> <span class="fw-semibold">Delivery is free</span></li>
+                        <li><i class="bi bi-check-lg"></i> <span class="fw-semibold">Get access to latest recipes</span></li>
+                    </ul>
+                    <button class="btn btn-orange">Start eating well</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-features">
+    <div class="container text-center">
+        <p class="pricing-info-text">Prices include all applicable taxes. You can cancel at any time. Both plans include the following:</p>
+
+        <div class="features-grid mt-5">
+            <div class="feature-item">
+                <i class="bi bi-infinity" style="font-size: 4rem;"></i>
+                <h4>Never cook again!</h4>
+                <p class="fw-semibold">Our subscriptions cover 365 days per year, even including major holidays.</p>
+            </div>
+            <div class="feature-item">
+                <i class="bi bi-apple"></i>
+                <h4>Local and organic</h4>
+                <p class="fw-semibold">Our cooks only use local, fresh, and organic products to prepare your meals.</p>
+            </div>
+            <div class="feature-item">
+                <i class="bi bi-recycle"></i>
+                <h4>No waste</h4>
+                <p class="fw-semibold">All our partners only use reusable containers to package all your meals.</p>
+            </div>
+            <div class="feature-item">
+                <i class="bi bi-pause-btn"></i>
+                <h4>Pause anytime</h4>
+                <p class="fw-semibold">Going on vacation? Just pause your subscription, and we refund unused days.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cta py-5" style="background-color: #fff2e6;">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Text & Form Section -->
+      <div class="col-lg-6">
+        <h2 class="cta-heading fw-semibold mb-3">Get your first meal for free!</h2>
+        <p class="cta-description fw-semibold mb-4">
+          Healthy, tasty and hassle-free meals are waiting for you. Start eating well today.
+          You can cancel or pause anytime. And the first meal is on us!
+        </p>
+
+        <form class="row g-3">
+          <div class="col-md-6">
+            <label for="full-name" class="form-label fw-semibold">Full Name</label>
+            <input id="full-name" type="text" class="form-control p-3 rounded-4" placeholder="John Smith" required>
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label fw-semibold">Email Address</label>
+            <input id="email" type="email" class="form-control p-3 rounded-4" placeholder="me@example.com" required>
+          </div>
+          <div class="col-12">
+            <label for="select-where" class="form-label fw-semibold">Where did you hear from us?</label>
+            <select id="select-where" class="form-select p-3 rounded-4" required>
+              <option value="">Please choose one option:</option>
+              <option value="friends">Friends and family</option>
+              <option value="youtube">YouTube video</option>
+              <option value="podcast">Podcast</option>
+              <option value="facebook">Facebook ad</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-dark btn-lg w-100 rounded-4">Sign up now</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Image Section -->
+      <div class="col-lg-6 text-center mt-5 mt-lg-0">
+        <img src="eating.jpg" alt="Woman enjoying food" class="img-fluid rounded-4" style="max-height: 600px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="container py-4"> 
+<div class="row text-start justify-content-center gy-4">
+    
+    <!-- Logo + Social Icons -->
+    <div class="col-md-2 d-flex flex-column align-items-start">
+      <a href="#">
+        <img src="omnifood-logo.png" alt="OmniFood Logo" class="img-fluid mb-3" style="width: 150px;">
+      </a>
+      <div class="d-flex gap-3">
+        <a href="#"><img src="instagram-vector-logo-icon-social-media-logotype_901408-392.avif" alt="Instagram" class="rounded-2" style="width: 28px; height: 28px;"></a>
+        <a href="#"><img src="Telegram_logo.svg.webp" alt="Telegram" class="rounded-2" style="width: 28px; height: 28px;"></a>
+        <a href="#"><img src="png-clipart-icon-logo-twitter-logo-twitter-logo-blue-social-media-thumbnail.png" alt="Twitter" class="rounded-2" style="width: 28px; height: 28px;"></a>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="col-md-2">
+      <a href="#" class="d-block text-dark text-decoration-none fw-bold">Contact us</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">623 Harrison St.,2nd Floor,
+        San Franciso, CA 94107</a>
+      </a>
+      <br>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">415-201-6370</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">hello@omnifood.com</a>
+
+    </div>
+
+    <!-- Popular Services -->
+    <div class="col-md-2">
+      <p class="fw-bold">Account</p>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Create account</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Sign in</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">iOS app</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Android app</a>
+    </div>
+
+    <!-- Website Information -->
+    <div class="col-md-3">
+      <p class="fw-bold">Company</p>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">About Omnifood</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">For Business</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Cooking partners</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Careers</a>
+    </div>
+
+    <!-- Company -->
+    <div class="col-md-2">
+      <p class="fw-bold">Resources</p>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Recipe directory</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Help center</a>
+      <a href="#" class="d-block text-dark text-decoration-none fw-semibold">Privacy & terms</a>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+</body>
+</html>
